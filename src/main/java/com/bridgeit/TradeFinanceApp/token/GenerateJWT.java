@@ -22,7 +22,7 @@ public class GenerateJWT {
 	 * @param integer id
 	 * @return String
 	 */
-	public static String generate(int id){
+	public static String generate(String email){
 		
 		Date issueDate = new Date();
 		
@@ -35,7 +35,7 @@ public class GenerateJWT {
 		
 		builder.setExpiration(expireDate);
 		
-		builder.setIssuer(String.valueOf(id));
+		builder.setIssuer(email);
 		
 		builder.signWith(SignatureAlgorithm.HS256, KEY);
 		String compactJwt = builder.compact();

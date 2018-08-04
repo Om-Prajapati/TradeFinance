@@ -7,11 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name="USER_TABLE")
-@Component
 public class User {
 
 	@Id
@@ -33,7 +31,18 @@ public class User {
 	
 	@Column(name="IS_ACTIVE")
 	private boolean isActive;
+	
+	@Column(name="AUTHENTICATE_USER_KEY")
+	private String authenticate_user_key;
+	
+	@Column(name="CURRENTDATE")
+	private String currentDate;
+	
+	@Column(name="MODIFICATIONDATE")
+	private String modificationDate;
 
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -82,10 +91,28 @@ public class User {
 		this.isActive = isActive;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", email=" + email + ", password=" + password + ", role="
-				+ role + ", isActive=" + isActive + "]";
+	public String getAuthenticate_user_key() {
+		return authenticate_user_key;
 	}
 
+	public void setAuthenticate_user_key(String authenticate_user_key) {
+		this.authenticate_user_key = authenticate_user_key;
+	}
+
+	public String getCurrentDate() {
+		return currentDate;
+	}
+
+	public void setCurrentDate(String currentDate) {
+		this.currentDate = currentDate;
+	}
+
+	public String getModificationDate() {
+		return modificationDate;
+	}
+
+	public void setModificationDate(String modificationDate) {
+		this.modificationDate = modificationDate;
+	}
+	
 }

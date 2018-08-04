@@ -1,4 +1,4 @@
-package com.bridgeit.TradeFinanceApp.model;
+package com.bridgeit.TradeFinanceApp.utility;
 
 import java.security.MessageDigest;
 
