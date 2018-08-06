@@ -17,6 +17,12 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
 	<mvc:annotation-driven />
 	
+	<mvc:resources location="/template/" mapping="/template/**" />
+	<mvc:resources location="/service/" mapping="/service/**" />
+	<mvc:resources location="/script/" mapping="/script/**" />
+	<mvc:resources location="/controller/" mapping="/controller/**" />
+	<mvc:resources location="/style/" mapping="/style/**" />
+	
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 
@@ -60,10 +66,17 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 				<prop key="mail.smtp.port">465</prop>
 			</props>
 		</property>
-	</bean>
+	</bean> 
 	
 	<bean id="mailMail" class="com.bridgeit.TradeFinanceApp.utility.SendMail">
 		<property name="mailSender" ref="mailSender" />
 	</bean>
 	
+	<!-- <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.bridgeit.TradeFinanceApp.token.TokenInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	 -->
 </beans>

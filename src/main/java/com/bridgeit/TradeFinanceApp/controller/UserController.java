@@ -48,7 +48,7 @@ public class UserController {
 					String url = request.getRequestURL().toString();
 					url = url.substring(0, url.lastIndexOf("/")) + "/" + "verifyMail/" + user.getAuthenticate_user_key();
 					sendmail.sendMail("tradefinancebridgelabz@gmail.com", user.getEmail(), "Welcome to bridgelabz", url);
-					customResponse.setMessage("User registered successfully please check your email and active your account");
+					customResponse.setMessage("User registered successfully please check your mail and active your account");
 					customResponse.setStatusCode(200);
 				}else {
 					customResponse.setMessage("User could not be registered");
@@ -92,7 +92,7 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping(value = "/loginUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<CustomResponse>  loginUser(@RequestBody User user) {
 		CustomResponse customResponse = new CustomResponse();
 		try {
@@ -167,7 +167,6 @@ public class UserController {
 		}
 		return customResponse;
 	}
-	
 	
 	@RequestMapping(value = "/resetpassword", method = RequestMethod.POST)
 	public CustomResponse resetpassword(@RequestBody User user1,HttpServletRequest request, HttpSession session) throws IOException {

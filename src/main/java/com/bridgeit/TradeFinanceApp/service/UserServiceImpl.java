@@ -32,8 +32,9 @@ public class UserServiceImpl implements UserService {
 		Date date = new Date();
 		SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String currentTime = sdf.format(date);
-		
 		user.setCurrentDate(currentTime);
+		
+		
 		return userDao.registration(user);
 		
 	}

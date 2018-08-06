@@ -1,0 +1,35 @@
+<div class="container" id="registration-abc">
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<h2>Create an Account</h2>
+		<form name="registerForm">
+			
+			<div class="form-group">
+				<label class="control-label" for="name">Enter your name</label>
+				 <input id="userName" name="userName" type="text" class="form-control"  ng-model="user.userName"> 
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="email">Enter your email</label>
+				<input id="email" name="email" type="email"  class="form-control" ng-model="user.email"> 
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="password">Enter the password</label> 
+				<input id="password" name="password" type="password" class="form-control" ng-model="user.password"> 
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="role">Enter your role</label> 
+				<input id="role" name="role" type="text"  class="form-control" ng-model="user.role"> 
+			</div>
+
+			<div class="form-group">
+				<button id="submit" type="submit" ng-click="register()" class="btn btn-lg btn-danger btn-block">Create my Account</button>
+			</div>
+			<div>
+				<h3>Create an account? <a href="#!/login">Sign in</a></h3>
+			</div>
+		</form>
+	</div>
+</div>
+
