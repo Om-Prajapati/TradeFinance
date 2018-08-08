@@ -92,6 +92,8 @@ public class UserController {
 		}
 	}
 	
+	
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<CustomResponse>  loginUser(@RequestBody User user) {
 		CustomResponse customResponse = new CustomResponse();
@@ -108,7 +110,7 @@ public class UserController {
 				return new ResponseEntity<CustomResponse>(customResponse , HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 			customResponse.setMessage("Invalid Details");
 			customResponse.setStatusCode(500);
 			return new ResponseEntity<CustomResponse>(customResponse , HttpStatus.BAD_REQUEST);
