@@ -20,7 +20,7 @@ public class Validator {
 		
 		String result="false";
 		
-		String userName="^[a-zA-Z]{2,}$";
+		String userName="^[a-zA-z]+([ '-][a-zA-Z]+){2,}$";
 		
 		String emailFormat="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 		

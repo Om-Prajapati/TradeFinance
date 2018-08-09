@@ -21,6 +21,7 @@ import com.bridgeit.TradeFinanceApp.utility.SendMail;
 import com.bridgeit.TradeFinanceApp.utility.Validator;
 import com.bridgeit.TradeFinanceApp.model.User;
 import com.bridgeit.TradeFinanceApp.service.UserService;
+import com.bridgeit.TradeFinanceApp.token.GenerateJWT;
 
 @RestController
 public class UserController {
@@ -77,7 +78,7 @@ public class UserController {
 				userService.updateUser(user);
 				customResponse.setMessage("User is active");
 				customResponse.setStatusCode(200);
-				customResponse.setUser(user);
+				response.sendRedirect("http://localhost:8080/TradeFinance/#!/login");
 				return new ResponseEntity<CustomResponse>(customResponse , HttpStatus.OK);
 			}else {
 				customResponse.setMessage("User is already activate");
@@ -95,14 +96,16 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<CustomResponse>  loginUser(@RequestBody User user) {
+	public ResponseEntity<CustomResponse>  loginUser(@RequestBody User user ,HttpSession session) {
 		CustomResponse customResponse = new CustomResponse();
 		try {
 			user = userService.login(user);
 			if(user != null){
-				customResponse.setMessage("User login seccessfully");
+				String jwt = GenerateJWT.generate(user.getEmail());
+				customResponse.setMessage(jwt);
 				customResponse.setStatusCode(200);
-				customResponse.setUser(user);
+				
+				session.setAttribute("tokenlogin", jwt);
 				return new ResponseEntity<CustomResponse>(customResponse , HttpStatus.OK);
 			} else {
 				customResponse.setMessage("Your account is not activate");
@@ -128,13 +131,9 @@ public class UserController {
 				String url = request.getRequestURL().toString();
 				url = url.substring(0, url.lastIndexOf("/")) + "/" + "resetpassword/" + user.getAuthenticate_user_key();
 				sendmail.sendMail("tradefinancebridgelabz@gmail.com", user.getEmail(), "Reset Password", url);
-				//session.setAttribute("Authenticate_user_key", user.getAuthenticate_user_key());
-				//String email = GenerateJWT.generate(user.getEmail());
-				//request.setAttribute("AccessToken", email);
 				
-				customResponse.setMessage("Seccess");
+				customResponse.setMessage("Please check your mail");
 				customResponse.setStatusCode(200);
-				customResponse.setUser(user);
 			}else {
 				customResponse.setMessage("User is not found");
 				customResponse.setStatusCode(502);
@@ -148,7 +147,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/resetpassword/{authenticate_user_key:.+}", method = RequestMethod.GET)
-	public CustomResponse resetpassword(@PathVariable("authenticate_user_key") String authenticate_user_key, HttpSession session ) throws IOException {
+	public CustomResponse resetpassword(@PathVariable("authenticate_user_key") String authenticate_user_key, HttpSession session, HttpServletResponse response ) throws IOException {
 		CustomResponse customResponse = new CustomResponse();
 		User user = null;
 		try {
@@ -158,6 +157,7 @@ public class UserController {
 				session.setAttribute("Authenticate_user_key", authenticate_user_key);
 				customResponse.setMessage("Reset Page");
 				customResponse.setStatusCode(200);
+				response.sendRedirect("http://localhost:8080/TradeFinance/#!/resetpassword");
 			}else {
 				customResponse.setMessage("Oops!  This is an invalid password reset link.");
 				customResponse.setStatusCode(500);
@@ -170,10 +170,11 @@ public class UserController {
 		return customResponse;
 	}
 	
-	@RequestMapping(value = "/resetpassword", method = RequestMethod.POST)
+	@RequestMapping(value = "/resetpassword", method = RequestMethod.PUT)
 	public CustomResponse resetpassword(@RequestBody User user1,HttpServletRequest request, HttpSession session) throws IOException {
 		CustomResponse customResponse = new CustomResponse();
-		//int id = VerifiedJWT.verify(request.getHeader("AccessToken"));
+		
+		//int id = VerifiedJWT.verify(request.getHeader("token"));
 		String token = (String) session.getAttribute("Authenticate_user_key");
 		User user = null;
 		try {
@@ -182,9 +183,9 @@ public class UserController {
 			{
 				user.setPassword(encryption.encryptPassword(user1.getPassword()));
 				userService.updateUser(user);
-				customResponse.setMessage("Seccess");
+				customResponse.setMessage("Reset password seccessfully");
 				customResponse.setStatusCode(200);
-				//session.removeAttribute("Authenticate_user_key");
+				
 			}else {
 				customResponse.setMessage("Invalid");
 				customResponse.setStatusCode(500);
@@ -194,9 +195,30 @@ public class UserController {
 			customResponse.setMessage("Exception");
 			customResponse.setStatusCode(500);
 		}
+		//session.removeAttribute("Authenticate_user_key");
 		return customResponse;
+		
 	}
 	
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public ResponseEntity<CustomResponse> logout(HttpSession session) 
+	{
+		CustomResponse customResponse = new CustomResponse();
+		if(session!=null){
+			
+		session.removeAttribute("tokenlogin");
+		session.removeAttribute("user");
+		session.invalidate();
+		customResponse.setMessage("Logout seccessful");
+		
+		return new ResponseEntity<CustomResponse>(customResponse, HttpStatus.OK);
+		
+		} else {
+			customResponse.setMessage("Logout Unseccessful");
+			return new ResponseEntity<CustomResponse>(customResponse, HttpStatus.CONFLICT);
+		}
+	}
 	
 	
 	

@@ -1,6 +1,6 @@
 var tradeFinanceApp = angular.module('tradeFinanceApp');
 
-tradeFinanceApp.controller('loginController',function($scope, loginService , $location) {
+tradeFinanceApp.controller('loginController',function($scope, loginService , toastr, $location) {
 			
 			$scope.user = {};
 			$scope.login = function() {
@@ -9,10 +9,9 @@ tradeFinanceApp.controller('loginController',function($scope, loginService , $lo
 				
 				loginVariable.then(function(response) {
 					console.log(response.data.message);
-					console.log(response.data.user);
+					toastr.success('User Login successful','Login');
+					localStorage.setItem('token',response.data.message)
 					$location.path('/home')
-					
-					//localStorage.setItem('token',response.data.message
 				}, function(response) {
 					$scope.errorMessage = response.data.message;
 				});

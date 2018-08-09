@@ -11,14 +11,11 @@ tradeFinanceApp.factory('resetService', function($http, $location) {
 		})
 	}
 
-	reset.resetPassword = function(user,token) {
+	reset.resetPassword = function(user) {
 		return $http({
 			method : "PUT",
 			url : 'resetpassword',
-			data : user,
-			headers:{
-				token:token
-			}
+			data : user
 		})
 	}
 	return reset;

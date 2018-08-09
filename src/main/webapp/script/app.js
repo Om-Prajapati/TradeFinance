@@ -1,4 +1,4 @@
-var tradeFinanceApp = angular.module('tradeFinanceApp', [ 'ui.router']);
+var tradeFinanceApp = angular.module('tradeFinanceApp', [ 'ui.router','toastr']);
 
 tradeFinanceApp.config(function($stateProvider, $urlRouterProvider) {
 	
@@ -15,6 +15,10 @@ tradeFinanceApp.config(function($stateProvider, $urlRouterProvider) {
 	.state('home', {
 		url : '/home',
 		templateUrl : 'template/home.html',
+	})
+	.state('info', {
+		url : '/info',
+		templateUrl : 'template/info.html',
 	})
 	.state('forgetpassword', {
 	 	url : '/forgetpassword',

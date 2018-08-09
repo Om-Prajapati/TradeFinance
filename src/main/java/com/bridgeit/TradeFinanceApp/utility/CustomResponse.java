@@ -1,14 +1,11 @@
 package com.bridgeit.TradeFinanceApp.utility;
 
-import com.bridgeit.TradeFinanceApp.model.User;
 
 public class CustomResponse {
 
 	private String message;
 
 	private int statusCode;
-
-	private User user;
 	
 	public String getMessage() {
 		return message;
@@ -25,14 +22,4 @@ public class CustomResponse {
 	public void setStatusCode(int statusCode) {
 		this.statusCode = statusCode;
 	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	
 }
