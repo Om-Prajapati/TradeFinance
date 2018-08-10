@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public User login(User user) {
+		
 		String pwd = encryption.encryptPassword(user.getPassword());
 		user.setPassword(pwd);
 		user.setEmail(user.getEmail());
@@ -67,5 +68,5 @@ public class UserServiceImpl implements UserService {
 		return userDao.emailValidation(email);
 	}
 
-
+	
 }

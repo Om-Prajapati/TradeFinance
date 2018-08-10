@@ -17,5 +17,4 @@ public interface UserService {
 	
 	public User emailValidation(String email);
 	
-
 }

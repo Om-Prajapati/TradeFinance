@@ -19,16 +19,14 @@ public class Validator {
 	public String validateSaveUser(User user) {
 		
 		String result="false";
-		
-		String userName="^[a-zA-z]+([ '-][a-zA-Z]+){2,}$";
-		
+
 		String emailFormat="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 		
 		String passwordFormat="^[a-zA-Z0-9]{8,}$";
 		
 		
 		if(user.getUserName()==null||user.getUserName()==""){
-			result="Your name is too short...";
+			result="Please enter name ...";
 			return result;
 		}
 		
@@ -40,11 +38,6 @@ public class Validator {
 		
 		else if(user.getPassword()==null||user.getPassword()==""){
 			result="Password must contain words and number";
-			return result;
-		}
-		
-		else if(!user.getUserName().matches(userName)){
-			result="Your  name is too short...";
 			return result;
 		}
 		
@@ -81,4 +74,17 @@ public class Validator {
 		 }
 	}
 	
+	public String validateLogin(String email) {
+		User user= userService.emailValidation(email);
+		if(user != null) {
+			if(user.isActive() != true) {
+				return "Your account is not activate";
+			}else {
+				return "success";
+			}
+		}else {
+			return "Your email is not register";
+		}
+		
+	}
 }

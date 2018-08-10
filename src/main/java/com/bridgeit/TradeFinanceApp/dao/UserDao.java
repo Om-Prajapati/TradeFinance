@@ -18,4 +18,5 @@ public interface UserDao {
 	public User getUserByAuthenticateKey(String authenticateKey);
 	
 	public User emailValidation(String email);
+	
 }

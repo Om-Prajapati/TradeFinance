@@ -93,30 +93,28 @@ public class UserController {
 		}
 	}
 	
-	
-	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<CustomResponse>  loginUser(@RequestBody User user ,HttpSession session) {
+	public CustomResponse  loginUser(@RequestBody User user ,HttpSession session) {
 		CustomResponse customResponse = new CustomResponse();
-		try {
-			user = userService.login(user);
-			if(user != null){
+		String isValid = validator.validateLogin(user.getEmail());
+		User newUser = null;
+		if(isValid.equals("success")) {
+			newUser = userService.login(user);
+			if(newUser != null){
 				String jwt = GenerateJWT.generate(user.getEmail());
 				customResponse.setMessage(jwt);
 				customResponse.setStatusCode(200);
-				
 				session.setAttribute("tokenlogin", jwt);
-				return new ResponseEntity<CustomResponse>(customResponse , HttpStatus.OK);
+				return customResponse;
 			} else {
-				customResponse.setMessage("Your account is not activate");
+				customResponse.setMessage("Your password is invalid");
 				customResponse.setStatusCode(502);
-				return new ResponseEntity<CustomResponse>(customResponse , HttpStatus.BAD_REQUEST);
+				return customResponse;
 			}
-		} catch (Exception e) {
-			e.printStackTrace(); 
-			customResponse.setMessage("Invalid Details");
-			customResponse.setStatusCode(500);
-			return new ResponseEntity<CustomResponse>(customResponse , HttpStatus.BAD_REQUEST);
+		}else {
+			customResponse.setMessage(isValid);
+			customResponse.setStatusCode(502);
+			return customResponse;
 		}
 	}
 	
